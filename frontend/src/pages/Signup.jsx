@@ -1,6 +1,48 @@
-import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { signup } from "../services/authServices";
 export default function Signup() {
+  const navigate = useNavigate();
+
+const [formData, setFormData] = useState({
+  fullName: "",
+  email: "",
+  password: "",
+});
+
+const [loading, setLoading] = useState(false);
+
+const handleChange = (e) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    setLoading(true);
+
+    await signup(formData);
+
+    alert("Account created successfully!");
+
+    navigate("/");
+
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Signup failed"
+    );
+
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50">
 
@@ -10,28 +52,44 @@ export default function Signup() {
           Create Account
         </h1>
 
-        <form className="space-y-4 mt-6">
+<form
+  onSubmit={handleSubmit}
+  className="space-y-4 mt-6"
+>
+          <input
+  name="fullName"
+  value={formData.fullName}
+  onChange={handleChange}
+  placeholder="Name"
+  className="w-full border rounded-xl p-3"
+/>
 
           <input
-            placeholder="Name"
-            className="w-full border rounded-xl p-3"
-          />
+  name="email"
+  type="email"
+  value={formData.email}
+  onChange={handleChange}
+  placeholder="Email"
+  className="w-full border rounded-xl p-3"
+/>
 
-          <input
-            placeholder="Email"
-            className="w-full border rounded-xl p-3"
-          />
-
-          <input
-            placeholder="Password"
-            className="w-full border rounded-xl p-3"
-          />
+         <input
+  name="password"
+  type="password"
+  value={formData.password}
+  onChange={handleChange}
+  placeholder="Password"
+  className="w-full border rounded-xl p-3"
+/>
+           
 
           <button
-            className="w-full bg-violet-600 text-white py-3 rounded-xl"
-          >
-            Sign Up
-          </button>
+  type="submit"
+  disabled={loading}
+  className="w-full bg-violet-600 text-white py-3 rounded-xl disabled:opacity-50"
+>
+  {loading ? "Creating Account..." : "Sign Up"}
+</button>
 
         </form>
 
