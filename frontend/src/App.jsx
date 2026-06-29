@@ -8,6 +8,7 @@ import Outreach from "./pages/Outreach";
 
 import Dashboard from "./pages/Dashboard";
 import Assistant from "./pages/Assistant";
+import Profile from "./pages/Profile";
 function App() {
   return (
     <BrowserRouter>
@@ -36,6 +37,10 @@ function App() {
         <Route
           path="/outreach"
           element={<Outreach />}
+        />
+        <Route
+          path="/profile"
+          element={<Profile />}
         />
 
       </Routes>

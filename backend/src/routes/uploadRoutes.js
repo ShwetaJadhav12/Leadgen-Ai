@@ -6,7 +6,8 @@ const upload=require("../middleware/upload");
 
 const {
 
-uploadPDF
+uploadPDF,
+extractBusinessProfile
 
 }=require("../controllers/uploadController");
 
@@ -17,6 +18,16 @@ router.post(
 upload.single("pdf"),
 
 uploadPDF
+
+);
+
+router.post(
+
+"/business-profile",
+
+upload.single("pdf"),
+
+extractBusinessProfile
 
 );
 
